@@ -1,2 +1,4 @@
-# sec-project
-A project made for security subject in college.
+# О проекте
+Проект создан для Обеспечения Безопасности Веб-Приложений.
+# С чем
+В целом PHP, HTML+CSS+JS.

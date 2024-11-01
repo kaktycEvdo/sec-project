@@ -2,3 +2,4 @@ sqlite.db
 ini/
 .htaccess
 static/user/
+imgresizeextravaganza.php

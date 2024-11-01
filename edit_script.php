@@ -5,7 +5,7 @@ if(isset($_SESSION['user'])){
     $qChangePFP = $mysql->prepare('UPDATE users SET pfp = :pfp WHERE id = '.$_SESSION['user']);
     $qChangeStatus = $mysql->prepare("UPDATE users SET status = :status WHERE id = ".$user);
 
-    function validateImage($img, $to): array{
+    function validateImage($img): array{
         if ($img['error'] > 0) {
             $str = 'Ошибка: ';
             switch ($img['error']) {
@@ -31,47 +31,36 @@ if(isset($_SESSION['user'])){
         $img['type'] != 'image/webp'){
             return [1, 'Ошибка: Файл не является изображением'];
         }
-    
-        if (is_uploaded_file($img['tmp_name'])) {
-            if (!move_uploaded_file($img['tmp_name'], $to)) {
-                return [1, 'Ошибка: Невозможно переместить файл в необходимый каталог'];
-            }
-        } else {
-            return [1, 'Ошибка: Возможна атака через загрузку файла'];
-        }
         return [0, 'Изображение валидно'];
     }
 
-    function convertImage($original, $size, $towidth, $toheight) {
+    function convertImage($original, $towidth, $toheight) {
         //jpg, png
-        $ext = $size['mime'];
-
+        $ext = getimagesize($original['tmp_name'])['mime'];
+        $size = getimagesize($original['tmp_name']);
+    
         if (preg_match('/jpg|jpeg/i', $ext))
-            $imageTemp = imagecreatefromjpeg($original);
+            $imageTemp = imagecreatefromjpeg($original['tmp_name']);
         else if (preg_match('/png/i', $ext))
-            $imageTemp = imagecreatefrompng($original);
+            $imageTemp = imagecreatefrompng($original['tmp_name']);
         else
             return 0;
-
+    
         $ratio = $size[0]/$size[1]; // width / height
         $width = 0;
         $height = 0;
-        if ($ratio > 1 ) {
+        if ($ratio > 1){
             $width  = $towidth;
             $heigth = $toheight / $ratio;
         } else {
             $width = $towidth*$ratio;
             $heigth = $toheight;
         }
-
+    
         $resizedImg = imagecreatetruecolor($width, $heigth);
         imagecopyresampled($resizedImg, $imageTemp, 0,0,0,0,$width, $heigth, $size[0], $size[1]);
-        //starting an output buffer to get the data
-        ob_start();
-        //here we get the data
-        $output = ob_get_clean();
-
-        return $output;
+    
+        return $resizedImg;
     }
 
     $res = false;
@@ -91,6 +80,14 @@ if(isset($_SESSION['user'])){
     }
     if(isset($_FILES['profile_image'])){
         $img = $_FILES['profile_image'];
+        $imgVal = validateImage($img);
+
+        if($imgVal[0] == 1){
+            $_SESSION['response'] = $imgVal;
+            header('Location: ../sec-project');
+            die;
+        }
+
         $to;
         $toMin;
         $name = $_SESSION['user'];
@@ -104,16 +101,15 @@ if(isset($_SESSION['user'])){
             $toMin = 'static/user/'.$name.$created.'-min.png';
         }
 
-        $size = getimagesize($img['tmp_name']);
-        $donePicMin = convertImage($img['tmp_name'], $size, 100, 100);
-        $donePic = convertImage($img['tmp_name'], $size, 800, 800);
+        $donePicMin = convertImage($img, 100, 100);
+        $donePic = convertImage($img, 800, 800);
 
-        $res = validateImage($donePic, $to);
-        $res = validateImage($donePicMin, $toMin);
+        $res = imagepng($donePic, $to);
+        $res = imagepng($donePicMin, $toMin);
 
-        if($res[0] == 1){
-            $_SESSION['response'] = $res;
-            // header('Location: edit');
+        if(!$res){
+            $_SESSION['response'] = [1, 'Ошибка конвертации изображения'];
+            header('Location: edit');
             die;
         }
         $to = str_replace('static/', '', $to);
