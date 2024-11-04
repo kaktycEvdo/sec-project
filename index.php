@@ -36,21 +36,33 @@
             break;
         case 'edit':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'view/edit.php';
             break;
         case 'edit_user':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'view/edit_user.php';
             break;
         case 'edit_script':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'edit_script.php';
             break;
         case 'profile':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'view/profile.php';
             break;
@@ -66,26 +78,35 @@
             break;
         case 'delete_user':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'delete.php';
             break;
         case 'create_user':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'view/create_user.php';
             break;
         case 'create_script':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'create_script.php';
             break;
         case 'logout':
             require 'connect_to_db.php';
+            if(!isset($_SESSION['user'])){
+                header('Location: ../sec-project');
+            }
             require 'profile_info.php';
             include_once 'logout.php';
-            break;
-        case 'imgresizeextravaganza':
-            include_once 'imgresizeextravaganza.php';
             break;
         default:
             include_once 'view/404.php';

@@ -51,14 +51,14 @@ if(isset($_SESSION['user'])){
         $height = 0;
         if ($ratio > 1){
             $width  = $towidth;
-            $heigth = $toheight / $ratio;
+            $height = $toheight / $ratio;
         } else {
             $width = $towidth*$ratio;
-            $heigth = $toheight;
+            $height = $toheight;
         }
     
-        $resizedImg = imagecreatetruecolor($width, $heigth);
-        imagecopyresampled($resizedImg, $imageTemp, 0,0,0,0,$width, $heigth, $size[0], $size[1]);
+        $resizedImg = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImg, $imageTemp, 0,0,0,0,$width, $height, $size[0], $size[1]);
     
         return $resizedImg;
     }

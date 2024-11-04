@@ -150,6 +150,11 @@ form#auth_form > div > input{
     color: white;
 }
 
+.image-select img, .profile_info img{
+    height: 300px;
+    width: 300px;
+}
+
 /* footer */
 footer{
     background-color: black;

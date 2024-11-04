@@ -46,14 +46,14 @@ function convertImage($original, $towidth, $toheight) {
     $height = 0;
     if ($ratio > 1){
         $width  = $towidth;
-        $heigth = $toheight / $ratio;
+        $height = $toheight / $ratio;
     } else {
         $width = $towidth*$ratio;
-        $heigth = $toheight;
+        $height = $toheight;
     }
 
-    $resizedImg = imagecreatetruecolor($width, $heigth);
-    imagecopyresampled($resizedImg, $imageTemp, 0,0,0,0,$width, $heigth, $size[0], $size[1]);
+    $resizedImg = imagecreatetruecolor($width, $height);
+    imagecopyresampled($resizedImg, $imageTemp, 0,0,0,0,$width, $height, $size[0], $size[1]);
 
     return $resizedImg;
 }
@@ -62,6 +62,8 @@ $email = $_POST['mail'];
 $password = hash('sha256', $_POST['password']);
 $status = $_POST['status'];
 $img = $_FILES['profile_image'];
+
+var_dump($img);
 
 // mysql
 $stmt = $mysql->prepare("INSERT INTO users(email, password, pfp, status) VALUES (:email, :pswrd, :pfp, :status)");
@@ -74,37 +76,36 @@ $created = time();
 $to = '';
 $toMin = '';
 
-if(!isset($img) || $img == 'default'){  
-    $to = 'static/user-default.png';  
-    $toMin = 'static/user-default.png';
+if(!isset($img) || $img['name'] == '' || $img['name'] == 'default'){  
+    $to = 'static/user-default.png';
 } else {
     $to = 'static/user/'.$name.$created.'.png';  
     $toMin = 'static/user/min-'.$name.$created.'.png';
+    $imgVal = validateImage($img);
+
+    if ($imgVal[0] == 1){
+        $_SESSION['response'] = $imgVal;
+        header('Location: ../sec-project');
+        die;
+    }
+
+    $newImgMin = convertImage($img, 100, 100);
+    $newImg = convertImage($img, 800, 800);
+
+    $imgVal1 = imagepng($newImgMin, $toMin);
+    $imgVal2 = imagepng($newImg, $to);
+
+    if(!$imgVal1 || !$imgVal2){
+        $_SESSION['response'] = [1, "Ошибка конвертации изображения"];
+        header('Location: ../sec-project');
+        die;
+    }
 }
 
-$imgVal = validateImage($img);
-
-if ($imgVal[0] == 1){
-    $_SESSION['response'] = $imgVal;
-    header('Location: ../sec-project');
-    die;
-}
-
-$newImgMin = convertImage($img, 100, 100);
-$newImg = convertImage($img, 800, 800);
-
-$imgVal1 = imagepng($newImgMin, $toMin);
-$imgVal2 = imagepng($newImg, $to);
-
-if(!$imgVal1 || !$imgVal2){
-    $_SESSION['response'] = [1, "Ошибка конвертации изображения"];
-    header('Location: ../sec-project');
-    die;
-}
+$stmt->bindValue(":pfp", str_replace('static/', '', $to));
 
 $stmt->bindValue(":email", $email);
 $stmt->bindValue(":pswrd", $password);
-$stmt->bindValue(":pfp", str_replace('static/', '', $to));
 $stmt->bindValue(":status", $status);
 $res = $stmt->execute();
 
