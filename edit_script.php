@@ -104,12 +104,16 @@ if(isset($_SESSION['user'])){
         $donePicMin = convertImage($img, 100, 100);
         $donePic = convertImage($img, 800, 800);
 
+        if(!is_dir('static/user/'.$user_data['name'])){
+            mkdir('static/user/'.$user_data['name']);
+        }
+
         $res = imagepng($donePic, $to);
         $res = imagepng($donePicMin, $toMin);
 
         if(!$res){
             $_SESSION['response'] = [1, 'Ошибка конвертации изображения'];
-            header('Location: edit');
+            // header('Location: edit');
             die;
         }
         $to = str_replace('static/', '', $to);
@@ -119,7 +123,7 @@ if(isset($_SESSION['user'])){
 
     if ($res){
         $_SESSION['response'] = [0, 'Изменение успешно'];
-        header('Location: ../sec-project');
+        header('Location: ../'.$dir);
     }
     else{
         $_SESSION['response'] = [1, 'Ошибка: не удалось изменить данные пользователя'];

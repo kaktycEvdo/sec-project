@@ -14,5 +14,5 @@ if ($user_info){
     }
 }
 else{
-    header('Location: ../sec-project');
+    header('Location: ../'.$dir);
 }

@@ -1,7 +1,4 @@
 <?php
-if($user_data){
-    $_SESSION['user'] = null;
-}
-else{
-    header('Location: ../sec-project');
-}
+session_destroy();
+$_SESSION['response'] = [0, 'Выход произошёл успешно'];
+header('Location: ../'.$dir);

@@ -1,11 +1,11 @@
 <header>
     <div class="logo">
         <?php
-            if (str_replace('/sec-project/', '',  $_SERVER['REQUEST_URI']) == ''){
+            if ($url == ''){
                 echo '<a href="">Главная</a>';
             }
             else{
-                echo '<a href="../sec-project">Главная</a>';
+                echo '<a href="../'.$dir.'">Главная</a>';
             }
         ?>
         

@@ -85,7 +85,7 @@ if(!isset($img) || $img['name'] == '' || $img['name'] == 'default'){
 
     if ($imgVal[0] == 1){
         $_SESSION['response'] = $imgVal;
-        header('Location: ../sec-project');
+        header('Location: ../'.$dir);
         die;
     }
 
@@ -97,7 +97,7 @@ if(!isset($img) || $img['name'] == '' || $img['name'] == 'default'){
 
     if(!$imgVal1 || !$imgVal2){
         $_SESSION['response'] = [1, "Ошибка конвертации изображения"];
-        header('Location: ../sec-project');
+        header('Location: ../'.$dir);
         die;
     }
 }

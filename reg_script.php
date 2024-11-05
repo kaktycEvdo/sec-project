@@ -21,9 +21,9 @@ if ($res){
     $id = $mysql->query("SELECT id FROM users ORDER BY id LIMIT 1")->fetch(PDO::FETCH_COLUMN);
     $_SESSION['user'] = $id;
     $_SESSION['response'] = [0, "Регистрация успешна"];
-    header('Location: ../sec-project');
+    header('Location: ../'.$dir);
 }
 else{
     $_SESSION['response'] = [1, "Ошибка 401: Регистрация не удалась"];
-    header('Location: ../sec-project');
+    header('Location: ../'.$dir);
 }

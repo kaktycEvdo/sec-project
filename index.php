@@ -7,7 +7,13 @@
     <title>эээ типа... сайт</title>
 </head>
 <body>
-    <?php include_once 'view/header.php';
+    <?php
+    $dir = '/security_project';
+
+    $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : explode('?', $_SERVER['REQUEST_URI'])[0];
+    $url = str_replace($dir.'/', '',  $url);
+
+    include_once 'view/header.php';
     echo '<main>';
     if(isset($_SESSION['response'])){
         $res = $_SESSION['response'];
@@ -15,9 +21,7 @@
         $_SESSION['response'] = null;
     }
 
-    $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
-
-    switch (str_replace('/unimportant/sec-project/', '',  $url)){
+    switch ($url){
         case '':
         case 'index':
         case 'main':
@@ -37,7 +41,7 @@
         case 'edit':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'view/edit.php';
@@ -45,7 +49,7 @@
         case 'edit_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'view/edit_user.php';
@@ -53,7 +57,7 @@
         case 'edit_script':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'edit_script.php';
@@ -61,7 +65,7 @@
         case 'profile':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'view/profile.php';
@@ -69,7 +73,7 @@
         case 'users':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             include_once 'view/users.php';
             break;
@@ -79,7 +83,7 @@
         case 'delete_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'delete.php';
@@ -87,7 +91,7 @@
         case 'create_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'view/create_user.php';
@@ -95,17 +99,15 @@
         case 'create_script':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
             require 'profile_info.php';
             include_once 'create_script.php';
             break;
         case 'logout':
-            require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../sec-project');
+                header('Location: ../'.$dir);
             }
-            require 'profile_info.php';
             include_once 'logout.php';
             break;
         default:

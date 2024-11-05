@@ -3,3 +3,4 @@ ini/
 .htaccess
 static/user/
 imgresizeextravaganza.php
+.gitignore
