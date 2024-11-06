@@ -5,7 +5,7 @@
                 echo '<a href="">Главная</a>';
             }
             else{
-                echo '<a href="../'.$dir.'">Главная</a>';
+                echo '<a href="'.$dir.'">Главная</a>';
             }
         ?>
         

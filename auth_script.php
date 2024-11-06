@@ -6,9 +6,9 @@ $res = $stmt->fetch();
 if ($res){
     $_SESSION['user'] = $res['id'];
     $_SESSION['response'] = [0, 'Авторизация успешна'];
-    header('Location: ../'.$dir);
+    header('Location: '.$dir);
 }
 else{
     $_SESSION['response'] = [1, 'Ошибка 401: Неверные данные авторизации'];
-    header('Location: ../'.$dir);
+    header('Location: '.$dir);
 }

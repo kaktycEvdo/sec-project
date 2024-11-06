@@ -63,8 +63,6 @@ $password = hash('sha256', $_POST['password']);
 $status = $_POST['status'];
 $img = $_FILES['profile_image'];
 
-var_dump($img);
-
 // mysql
 $stmt = $mysql->prepare("INSERT INTO users(email, password, pfp, status) VALUES (:email, :pswrd, :pfp, :status)");
 $lastUserQ = $mysql->query("SELECT id FROM users ORDER BY id LIMIT 1", PDO::FETCH_COLUMN, 0);
@@ -108,14 +106,6 @@ $stmt->bindValue(":email", $email);
 $stmt->bindValue(":pswrd", $password);
 $stmt->bindValue(":status", $status);
 $res = $stmt->execute();
-
-// sqlite
-// $stmt = $sqlite->prepare("INSERT INTO users(email, password) VALUES (:email, :pswrd)");
-
-// $stmt->bindValue(":email", $email);
-// $stmt->bindValue(":pswrd", $password);
-
-// $res = $stmt->execute();
 
 if ($res){
     $_SESSION['response'] = [0, "Создание пользователя успешно"];

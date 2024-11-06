@@ -113,7 +113,7 @@ if(isset($_SESSION['user'])){
 
         if(!$res){
             $_SESSION['response'] = [1, 'Ошибка конвертации изображения'];
-            // header('Location: edit');
+            header('Location: edit');
             die;
         }
         $to = str_replace('static/', '', $to);
@@ -123,7 +123,7 @@ if(isset($_SESSION['user'])){
 
     if ($res){
         $_SESSION['response'] = [0, 'Изменение успешно'];
-        header('Location: ../'.$dir);
+        header('Location: '.$dir);
     }
     else{
         $_SESSION['response'] = [1, 'Ошибка: не удалось изменить данные пользователя'];

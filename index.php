@@ -41,7 +41,7 @@
         case 'edit':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'view/edit.php';
@@ -49,7 +49,7 @@
         case 'edit_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'view/edit_user.php';
@@ -57,7 +57,7 @@
         case 'edit_script':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'edit_script.php';
@@ -65,7 +65,7 @@
         case 'profile':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'view/profile.php';
@@ -73,7 +73,7 @@
         case 'users':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             include_once 'view/users.php';
             break;
@@ -83,7 +83,7 @@
         case 'delete_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'delete.php';
@@ -91,7 +91,7 @@
         case 'create_user':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: /'.$dir);
             }
             require 'profile_info.php';
             include_once 'view/create_user.php';
@@ -99,19 +99,19 @@
         case 'create_script':
             require 'connect_to_db.php';
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             require 'profile_info.php';
             include_once 'create_script.php';
             break;
         case 'logout':
             if(!isset($_SESSION['user'])){
-                header('Location: ../'.$dir);
+                header('Location: '.$dir);
             }
             include_once 'logout.php';
             break;
         default:
-            include_once 'view/404.php';
+            include_once 'view/404.html';
             break;
     }
     echo '</main>';
