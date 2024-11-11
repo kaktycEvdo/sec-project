@@ -21,7 +21,7 @@
                 case 3: $status = 'Не беспокоить'; break;
             }
             echo '<div>
-            <div>'.$user['id'].'</div>
+            <div><a href="profile?id='.$user['id'].'">'.$user['id'].'</a></div>
             <div>
                 <img src="static/'.(isset($user['pfp']) && $user['pfp'] != '' ? $user['pfp'] : 'user-default.png').'" />
             </div>

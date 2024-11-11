@@ -18,7 +18,7 @@ $res = $stmt->execute();
 
 
 if ($res){
-    $id = $mysql->query("SELECT id FROM users ORDER BY id LIMIT 1")->fetch(PDO::FETCH_COLUMN);
+    $id = $mysql->query("SELECT id FROM users ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_COLUMN);
     $_SESSION['user'] = $id;
     $_SESSION['response'] = [0, "Регистрация успешна"];
     header('Location: '.$dir);
