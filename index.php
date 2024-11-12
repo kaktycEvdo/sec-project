@@ -25,7 +25,7 @@
         case '':
         case 'index':
         case 'main':
-            include_once 'view/index.html';
+            include_once 'view/index.php';
             break;
         case 'auth_script':
             require 'connect_to_db.php';
