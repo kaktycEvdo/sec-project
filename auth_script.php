@@ -9,14 +9,11 @@ if(!isset($_POST['captcha_challenge'])){
     header('Location: '.$dir);
     die;
 }
-// if($_POST['captcha_challenge'] != $_SESSION['captcha_text']){
-//     $_SESSION['response'] = [1, 'Каптча решена неверно'];
-//     header('Location: '.$dir);
-//     die;
-// }
-
-var_dump($_POST['captcha_challenge']);
-var_dump($_SESSION['captcha_text']);
+if($_POST['captcha_challenge'] != $_SESSION['captcha_text']){
+    $_SESSION['response'] = [1, 'Каптча решена неверно'];
+    header('Location: '.$dir);
+    die;
+}
 
 $mail = $_POST['mail'];
 $password = hash('sha256', $_POST['password']);
@@ -26,16 +23,15 @@ $stmt = $mysql->prepare("SELECT id FROM users WHERE email = :email and password 
 $stmt->bindParam('email', $mail);
 $stmt->bindParam('pswrd', $password);
 
+$stmt->execute();
 $res = $stmt->fetch();
 
-var_dump($res);
-
-// if ($res){
-//     $_SESSION['user'] = $res['id'];
-//     $_SESSION['response'] = [0, 'Авторизация успешна'];
-//     header('Location: '.$dir);
-// }
-// else{
-//     $_SESSION['response'] = [1, 'Ошибка 401: Неверные данные авторизации'];
-//     header('Location: '.$dir);
-// }
+if ($res){
+    $_SESSION['user'] = $res['id'];
+    $_SESSION['response'] = [0, 'Авторизация успешна'];
+    header('Location: '.$dir);
+}
+else{
+    $_SESSION['response'] = [1, 'Ошибка 401: Неверные данные авторизации'];
+    header('Location: '.$dir);
+}

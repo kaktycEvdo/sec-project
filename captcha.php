@@ -1,5 +1,6 @@
 <?php
-$permitted_chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+session_start();
+$permitted_chars = '0123456789';
 
 function generate_string($input, $strength = 10)
 {
@@ -9,25 +10,29 @@ function generate_string($input, $strength = 10)
         $random_character = $input[mt_rand(0, $input_length - 1)];
         $random_string .= $random_character;
     }
+    $_SESSION['captcha_text'] = $random_string;
     return $random_string;
 }
-$image = imagecreatetruecolor(200, 50);
+$image = imagecreatetruecolor(200, 200);
 imageantialias($image, true);
-$colors = [];
-$red = rand(125, 175);
-$green = rand(125, 175);
-$blue = rand(125, 175);
+// $colors = [];
+$opacity = 0.5;
+$transparency = 1-$opacity;
 
-for ($i = 0; $i < 5; $i++) {
-    $colors[] = imagecolorallocate($image, $red - 20 * $i, $green - 20 * $i, $blue - 20 * $i);
-}
+imagefill($image, 0, 0, 75);
 
-imagefill($image, 0, 0, $colors[0]);
+$amount = rand(0, 8);
 
-for ($i = 0; $i < 10; $i++) {
+for ($i = 0; $i < $amount; $i++) {
     imagesetthickness($image, rand(2, 10));
-    $line_color = $colors[rand(1, 4)];
-    imagerectangle($image, rand(-10, 190), rand(-10, 10), rand(-10, 190), rand(40, 60), $line_color);
+    $size = rand(10, 100);
+    $green = rand(0,255);
+    $red = rand(0,255);
+    $blue = rand(0,255);
+    // img, r, g, b, a
+    $line_color = imagecolorallocatealpha($image, $green, $red, $blue, 127*$transparency);
+    // img, center_x, center_y, width, height, color
+    imagefilledellipse($image, rand(50, 150), rand(50, 150), $size, $size, $line_color);
 }
 
 $black = imagecolorallocate($image, 0, 0, 0);
@@ -36,11 +41,11 @@ $textcolors = [$black, $white];
 $fonts = [dirname(__FILE__) . '\static\fonts\Lato-Regular.ttf'];
 $string_length = 6;
 $captcha_string = generate_string($permitted_chars, $string_length);
-$_SESSION['captcha_text'] = $captcha_string;
 for ($i = 0; $i < $string_length; $i++) {
     $letter_space = 170 / $string_length;
     $initial = 15;
-    imagettftext($image, 24, rand(-15, 15), $initial + $i * $letter_space, rand(25, 45), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_string[$i]);
+    //img, size, angle, x, y, color, font, content
+    imagettftext($image, 24, rand(-15, 15), $initial + $i * $letter_space, rand(55, 165), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_string[$i]);
 }
 header('Content-type: image/png');
 imagepng($image);

@@ -12,7 +12,7 @@
         <label for="captcha">Пройдите каптчу</label>
         <img src="captcha.php" alt="CAPTCHA" class="captcha-image">
         <button class="refresh-captcha">Изменить</button>
-        <input type="text" id="captcha" name="captcha_challenge" pattern="[A-Z]{6}">
+        <input type="text" id="captcha" name="captcha_challenge" pattern="[0-9]{6}">
     </div>
     <div>
         <input type="submit" value="Авторизоваться">
