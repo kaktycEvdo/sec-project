@@ -64,7 +64,7 @@ if(isset($_SESSION['user'])){
     }
 
     $res = false;
-    if(isset($_POST['password'])){
+    if(isset($_POST['password']) && $_POST['password'] != ''){
         $password = hash('sha256', $_POST['password']);
 
         $qChangePassword->bindValue(":pswrd", $password);

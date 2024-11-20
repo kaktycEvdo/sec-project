@@ -9,6 +9,19 @@
         <input type="password" name="password" autocomplete="new-password">
     </div>
     <div>
+        <label for="captcha">Пройдите каптчу</label>
+        <img src="captcha.php" alt="CAPTCHA" class="captcha-image">
+        <button class="refresh-captcha">Изменить</button>
+        <input type="text" id="captcha" name="captcha_challenge" pattern="[0-9]{6}">
+    </div>
+    <div>
         <input type="submit" value="Зарегистрироваться">
     </div>
 </form>
+<script>
+    var refreshButton = document.querySelector(".refresh-captcha");
+    refreshButton.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(".captcha-image").src = 'captcha.php?' + Date.now();
+    });
+</script>

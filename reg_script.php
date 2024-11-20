@@ -1,4 +1,20 @@
 <?php
+if(!isset($_POST['mail']) || !isset($_POST['password'])){
+    $_SESSION['response'] = [1, 'Нет введенных данных'];
+    header('Location: '.$dir);
+    die;
+}
+if(!isset($_POST['captcha_challenge'])){
+    $_SESSION['response'] = [1, 'Не введено решение каптчи'];
+    header('Location: '.$dir);
+    die;
+}
+if($_POST['captcha_challenge'] != $_SESSION['captcha_text']){
+    $_SESSION['response'] = [1, 'Каптча решена неверно'];
+    header('Location: '.$dir);
+    die;
+}
+
 $email = $_POST['mail'];
 $password = hash('sha256', $_POST['password']);
 // mysql

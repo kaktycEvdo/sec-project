@@ -26,6 +26,8 @@ $stmt->bindParam('pswrd', $password);
 $stmt->execute();
 $res = $stmt->fetch();
 
+var_dump($res);
+
 if ($res){
     $_SESSION['user'] = $res['id'];
     $_SESSION['response'] = [0, 'Авторизация успешна'];
